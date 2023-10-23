@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+
+    <h2>Welcome, {{ user_info[0] }}!</h2>
+    
+    <p>Full Name: {{ user_info.full_name }}</p>
+    <p>Email: {{ user_info.email }}</p>
+    <!-- Add more profile information as needed -->
+    
+    <a href="/logout">Logout</a>
+</body>
+</html>

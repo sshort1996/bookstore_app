@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookstore - Books</title>
+    <style>
+      .table-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .pagination button {
+        margin: 0 0.5rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .sortable-header {
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const table = document.querySelector("table");
+        const tableRows = Array.from(document.querySelectorAll(".table-row"));
+        const prevButton = document.createElement("button");
+        const nextButton = document.createElement("button");
+        const priceHeader = document.getElementById("price-header");
+        const titleHeader = document.getElementById("title-header");
+        let currentPage = 1;
+        let sortAscending = true;
+
+        prevButton.textContent = "Previous";
+        nextButton.textContent = "Next";
+
+        document.querySelector(".pagination").append(prevButton, nextButton);
+
+        function showPage(pageNumber) {
+          const startIndex = (pageNumber - 1) * 25;
+          const endIndex = pageNumber * 25;
+
+          tableRows.forEach(function(row, index) {
+            if (index >= startIndex && index < endIndex) {
+              row.style.display = "table-row";
+            } else {
+              row.style.display = "none";
+            }
+          });
+
+          currentPage = pageNumber;
+          updatePaginationButtons();
+        }
+
+        function updatePaginationButtons() {
+          prevButton.disabled = currentPage === 1;
+          nextButton.disabled = currentPage === Math.ceil(tableRows.length / 25);
+        }
+
+        function sortTableByPrice() {
+            sortAscending = !sortAscending;
+
+            tableRows.sort(function(rowA, rowB) {
+                const priceA = parseFloat(rowA.querySelector(".price").textContent.slice(1));
+                const priceB = parseFloat(rowB.querySelector(".price").textContent.slice(1));
+
+                if (sortAscending) {
+                return priceA - priceB;
+                } else {
+                return priceB - priceA;
+                }
+            });
+
+            table.tBodies[0].append(...tableRows);
+            showPage(currentPage);
+        }
+
+
+        function sortTableByIndex() {
+            sortAscending = !sortAscending;
+
+            tableRows.sort(function(rowA, rowB) {
+                const titleA = parseInt(rowA.querySelector(".title").textContent);
+                const titleB = parseInt(rowB.querySelector(".title").textContent);
+
+                if (titleA < titleB) {
+                return sortAscending ? -1 : 1;
+                } else if (titleA > titleB) {
+                return sortAscending ? 1 : -1;
+                } else {
+                return 0;
+                }
+            });
+
+            table.tBodies[0].append(...tableRows);
+            showPage(currentPage);
+        }
+
+
+        prevButton.addEventListener("click", function() {
+          showPage(currentPage - 1);
+        });
+
+        nextButton.addEventListener("click", function() {
+          showPage(currentPage + 1);
+        });
+
+        priceHeader.addEventListener("click", sortTableByPrice);
+
+        titleHeader.addEventListener("click", sortTableByIndex);
+
+        showPage(1);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Books</h1>
+    <div class="search-container">
+        <form action="/search" method="GET">
+          <input type="text" name="query" placeholder="Search books">
+          <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th id="title-header" class="sortable-header">Index<button onClick="sortTableByIndex()">Sort</button></th>
+            <th>Title</th>
+            <th id="price-header" class="sortable-header">Price<button onClick="sortTableByPrice()">Sort</button></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr class="table-row">
+            <td class="title">{{ book[0] }}</td>
+            <td>{{ book[1] }}</td>
+            <td class="price">${{ book[2] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="pagination"></div>
+    </div>
+  </body>
+</html>

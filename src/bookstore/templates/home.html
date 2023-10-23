@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to the Bookstore!</title>
+  </head>
+  <body>
+    <h1>Welcome to the Bookstore!</h1>
+    This is a web app used for practicing flask, and mysql integration.
+    Home page is nothing much, just a link to a library of books.
+
+    <form action="{{ url_for('books') }}">
+      <button type="submit">Go to Books</button>
+    </form>
+
+        
+    <!-- Add buttons to register, login, and logout -->
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </body>
+</html>
+
+
