@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 
 from mysql_db import myDB 
 
@@ -12,7 +12,13 @@ login_manager.init_app(app)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    logged_in = False
+    
+    if current_user.is_authenticated:
+        logged_in = True
+        
+    return render_template('home.html', logged_in=logged_in)
+
 
 
 @app.route('/books')
@@ -56,6 +62,8 @@ def register():
         # Retrieve submitted form data
         username = request.form['username']
         password = request.form['password']
+        app.secret_key = password
+
         
         # Perform user registration logic (e.g., store in the database)
         # Make sure to hash and salt the password securely
@@ -92,10 +100,10 @@ def login():
             login_user(user)  # Log in the user using Flask-Login
             
             # Redirect to the user's profile or dashboard page
-            return redirect(url_for('profile'), user_info=user_info)
+            return redirect(url_for('profile'))
 
     # Return a response for GET requests or unsuccessful login attempts
-    return render_template('profile.html', user_info=user_info)
+    return render_template('login.html')
 
 
 

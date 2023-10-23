@@ -2,6 +2,10 @@
 <html>
   <head>
     <title>Welcome to the Bookstore!</title>
+    {% if logged_in %}
+    <a href="{{ url_for('profile') }}">Profile</a>
+    {% endif %}
+
   </head>
   <body>
     <h1>Welcome to the Bookstore!</h1>
