@@ -13,6 +13,8 @@ faker = "^19.11.0"
 flask = "^2.0.0"
 flask-login = "^0.5.0"
 werkzeug = "2.0.0"
+pyexecjs = "^1.5.1"
+bcrypt = "^4.0.1"
 
 
 [build-system]

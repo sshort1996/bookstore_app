@@ -1,7 +1,159 @@
 <!-- Add a registration form -->
-<form action="{{ url_for('register') }}" method="POST">
-    <!-- Add form fields (e.g., username, password) -->
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Register</button>
-</form>
+<head>
+    <style>
+        /* Add CSS styling for button container */
+        .header-buttons {
+          display: flex;
+          justify-content: space-between;
+          padding: 6px 12px;
+          background-color: lightgrey;
+          color: black;
+          text-decoration: none;
+          border-radius: 4px;
+        }
+    
+        /* Add CSS styling for button appearance */
+        .header-buttons a {
+          padding: 6px 12px;
+          background-color: grey;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+        }
+    
+        .header-buttons a:hover {
+            background-color: darkgrey;
+        }
+    
+        .center-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 10vh; /* Adjust as per your needs */
+        }
+    
+        /* Add CSS styling for button appearance */
+        .go-to-books-button {
+          padding: 12px 24px;
+          font-size: 18px;
+          background-color: grey;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+    
+        .go-to-books-button:hover {
+          background-color: darkgrey;
+        }
+    
+        body {
+          background-color: lightgrey;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          padding: 20px;
+        }
+    
+        h1 {
+          margin-bottom: 10px;
+        }
+    
+        .center-container {
+          margin-top: 50px;
+          margin-bottom: 50px;
+        }
+
+        .user-form label {
+          display: block;
+          margin-bottom: 5px;
+        }
+
+        .user-form input[type="text"] {
+          width: 100%;
+          padding: 6px 10px;
+          margin-bottom: 10px;
+        }
+
+        .register-button {
+          padding: 12px 24px;
+          background-color: grey;
+          color: white;
+          text-decoration: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        
+        .register-button:hover {
+          background-color: darkgrey;
+        }
+      </style>
+
+    
+</head>
+
+<body>
+    <div class="header-buttons">
+      <div>
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if logged_in %}
+        <a href="{{ url_for('profile') }}">Profile</a>
+        {% endif %}
+      </div>
+  
+      <!-- Place register, login, and logout buttons inside the 'header-buttons' div -->
+      <div>
+        {% if not logged_in %}
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+        {% if logged_in %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+      </div>
+    </div>
+  
+    <h1>Register new user</h1>
+
+    <form id="user-form" class="user-form" action="{{ url_for('register') }}" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Username" required>
+  
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Password" required>
+  
+        <label for="full_name">Full Name</label>
+        <input type="text" name="full_name" placeholder="Full Name" required>
+  
+        <label for="email">Email</label>
+        <input type="text" name="email" placeholder="Email address" required>
+  
+        <label for="phone_number">Phone Number</label>
+        <input type="text" name="phone_number" placeholder="Phone Number" required>
+  
+        <label for="home_address">Home Address</label>
+        <input type="text" name="home_address" placeholder="Home address" required>
+  
+        <button type="submit" class="register-button">Create account</button>
+    </form>
+
+    <script src="path/to/validation.js"></script>
+    <script>
+    document.getElementById("user-form").addEventListener("submit", validateForm);
+    </script>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<!-- Rest of your register.html content -->
+
+
+  </body>
+  
+  </html>

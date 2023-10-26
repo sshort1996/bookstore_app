@@ -1,27 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Welcome to the Bookstore!</title>
-    {% if logged_in %}
-    <a href="{{ url_for('profile') }}">Profile</a>
-    {% endif %}
 
-  </head>
-  <body>
-    <h1>Welcome to the Bookstore!</h1>
-    This is a web app used for practicing flask, and mysql integration.
-    Home page is nothing much, just a link to a library of books.
+<head>
+  <style>
+    /* Add CSS styling for button container */
+    .header-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background-color: lightgrey;
+      color: black;
+      text-decoration: none;
+      border-radius: 4px;
+    }
 
-    <form action="{{ url_for('books') }}">
-      <button type="submit">Go to Books</button>
-    </form>
+    /* Add CSS styling for button appearance */
+    .header-buttons a {
+      padding: 6px 12px;
+      background-color: grey;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
 
-        
-    <!-- Add buttons to register, login, and logout -->
-    <a href="{{ url_for('register') }}">Register</a>
-    <a href="{{ url_for('login') }}">Login</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
-  </body>
+    .header-buttons a:hover {
+        background-color: darkgrey;
+    }
+
+    .center-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10vh; /* Adjust as per your needs */
+    }
+
+    /* Add CSS styling for button appearance */
+    .go-to-books-button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: grey;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .go-to-books-button:hover {
+      background-color: darkgrey;
+    }
+
+    body {
+      background-color: lightgrey;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .center-container {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header-buttons">
+    <div>
+      <a href="{{ url_for('home') }}">Home</a>
+      {% if logged_in %}
+      <a href="{{ url_for('profile') }}">Profile</a>
+      {% endif %}
+    </div>
+
+    <!-- Place register, login, and logout buttons inside the 'header-buttons' div -->
+    <div>
+      {% if not logged_in %}
+      <a href="{{ url_for('register') }}">Register</a>
+      <a href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+      {% if logged_in %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+      {% endif %}
+      {% if is_admin %}
+      <a href="{{ url_for('debug') }}">Users</a>
+      {% endif %}
+    
+    </div>
+  </div>
+
+  <h1>Welcome to the Bookstore!</h1>
+  This is a web app used for practicing Flask and MySQL integration.
+  The home page is just a link to a library of books.
+
+  <div class="center-container">
+    <a href="{{ url_for('books') }}" class="go-to-books-button">Go to books</a>
+  </div>
+</body>
+
 </html>
-
-

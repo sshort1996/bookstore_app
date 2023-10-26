@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+
+    
+    <div class="header-buttons">
+      <div>
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if logged_in %}
+          <a href="{{ url_for('profile') }}">Profile</a>
+        {% endif %}
+      </div>
+    
+      <!-- Place register, login, and logout buttons inside the 'header-buttons' div -->
+      <div>
+        {% if not logged_in %}
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+        {% if logged_in %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+      </div>
+    </div>
     <title>Bookstore - Books</title>
     <style>
       .table-container {
@@ -23,6 +44,70 @@
       .sortable-header {
         cursor: pointer;
       }
+      
+
+    .header-buttons {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 12px;
+      background-color: lightgrey;
+      color: black;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    /* Add CSS styling for button appearance */
+    .header-buttons a {
+      padding: 6px 12px;
+      background-color: grey;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .header-buttons a:hover {
+        background-color: darkgrey;
+    }
+
+    .center-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10vh; /* Adjust as per your needs */
+    }
+
+    /* Add CSS styling for button appearance */
+    .go-to-books-button {
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: grey;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .go-to-books-button:hover {
+      background-color: darkgrey;
+    }
+
+    body {
+      background-color: lightgrey;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .center-container {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+  
+      
     </style>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
@@ -138,9 +223,9 @@
         <tbody>
           {% for book in books %}
           <tr class="table-row">
-            <td class="title">{{ book[0] }}</td>
-            <td>{{ book[1] }}</td>
-            <td class="price">${{ book[2] }}</td>
+            <td class="title">{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td class="price">${{ book.price }}</td>
           </tr>
           {% endfor %}
         </tbody>
